@@ -15,7 +15,6 @@ class ImageApp:
         self.original_image = None
         self.processed_image = None
 
-        # 🔥 Load YOLO ONCE (important)
         self.model = YOLO("yolov8_objectdetection_library/weights/best.pt")
 
         self.canvas = tk.Canvas(root, width=600, height=400, bg="gray")
