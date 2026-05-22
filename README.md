@@ -1,6 +1,5 @@
 # BoRa: The Tuffest Car Crash Prevention System #
-<img width="452" height="148" alt="Screenshot_2026-05-22_at_11 25 54_PM-removebg-preview" src="https://github.com/user-attachments/assets/72eaacb4-4f66-46d0-9f2a-28160f0482c6" />
-
+<img width="758" height="329" alt="Screenshot_2026-04-28_at_9 10 16_PM-removebg-preview" src="https://github.com/user-attachments/assets/9e181898-48f0-4464-8296-53f67b4013c8" />
 
 ### stuff that actually works right now ###
 pipeline1.py: DeHaze + Secondary Object Detection 
