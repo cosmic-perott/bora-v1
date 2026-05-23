@@ -46,53 +46,57 @@ def draw_warning(frame, warning_level, box=None):
 
     return frame
   
+from picamera2 import Picamera2
+
 def run():
     model = load_model(YOLO_WEIGHTS)
 
-    cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH,  DISPLAY_W)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, DISPLAY_H)
+    picam2 = Picamera2()
+    config = picam2.create_preview_configuration(
+        main={"format": "BGR888", "size": (DISPLAY_W, DISPLAY_H)}
+    )
+    picam2.configure(config)
+    picam2.start()
 
-    if not cap.isOpened():
-        print("camera aint working bro")
-        return
-
+    print("Pipeline run")
 
     while True:
-        ret, frame = cap.read()
-        if not ret:
-            print("frame where??")
+        frame = picam2.capture_array()
+        if frame is None:
+            print("frame where")
             break
 
         frame_h, frame_w = frame.shape[:2]
 
-  
+        # step 1: dehaze
         dehazed = boost_objects(frame)
 
-
+        # step 2: detect vehicles
         boxes = run_detection(model, dehazed)
 
-    
+        # draw all detections in green
         for (x1, y1, x2, y2) in boxes:
             cv2.rectangle(dehazed,
                           (int(x1), int(y1)), (int(x2), int(y2)),
                           (0, 255, 0), 1)
 
+        # step 3: check proximity and movement
         warning_level, primary_box = check_proximity(boxes, frame_w, frame_h)
 
+        # step 4: draw warning overlay
         output = draw_warning(dehazed, warning_level, primary_box)
 
-
-        status = f"Vehicles: {len(boxes)} "
+        # status bar
+        status = f"Vehicles: {len(boxes)}"
         cv2.putText(output, status, (10, frame_h - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
 
-        cv2.imshow("Fog Detection", output)
+        cv2.imshow("pipiline", output)
 
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
-    cap.release()
+    picam2.stop()
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
