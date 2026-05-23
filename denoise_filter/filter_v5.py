@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
-
-CLAHE, Sobel edge detection, sharpening을 결합한 이미지 필터링 파이프라인
+# BORA에 사용되는 dehazing algorithm 소스 코드
+#CLAHE, Sobel edge detection, sharpening을 결합한 이미지 필터링 파이프라인
 def boost_objects(img):
 
     # LAB 색공간으로 변환
