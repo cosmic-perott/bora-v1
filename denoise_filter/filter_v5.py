@@ -28,15 +28,15 @@ def boost_objects(img):
 
     return final
 
+if __name__ == "__main__":
+    img = cv2.imread("2.png")
 
-img = cv2.imread("2.png")
+    if img is None:
+        raise ValueError("Image not found!")
 
-if img is None:
-    raise ValueError("Image not found!")
+    output = boost_objects(img)
 
-output = boost_objects(img)
-
-cv2.imwrite("boosted_objects.jpg", output)
-cv2.imshow("Object Boost", output)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+    cv2.imwrite("boosted_objects.jpg", output)
+    cv2.imshow("Object Boost", output)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
