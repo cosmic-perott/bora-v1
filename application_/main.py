@@ -49,7 +49,7 @@ def draw_warning(frame, warning_level, box=None):
 def run():
     model = load_model(YOLO_WEIGHTS)
 
-    cap = cv2.VideoCapture(CAMERA_INDEX)
+    cap = cv2.VideoCapture(0, cv2.CAP_V4L2)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH,  DISPLAY_W)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, DISPLAY_H)
 
