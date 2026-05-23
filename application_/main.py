@@ -8,7 +8,7 @@ sys.path.append(ROOT)
 
 from denoise_filter.filter_v5 import boost_objects
 from object_detection_model.objectdetection import load_model, run_detection
-from object_detection_post_processing.matrix_test import check_proximity
+from object_detection_post_processsing.matrix_test import check_proximity
 
 YOLO_WEIGHTS  = os.path.join(ROOT, "yolov8_objectdetection_library", "weights", "best.pt")
 CAMERA_INDEX  = 0
