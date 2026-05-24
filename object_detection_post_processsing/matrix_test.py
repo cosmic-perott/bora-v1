@@ -124,7 +124,8 @@ def check_proximity(boxes, frame_w, frame_h):
             is_approaching = area_growth > APPROACH_THRESHOLD
         else:
             is_approaching = False
-
+        
+        on_collision_course = is_on_collision_course(history, frame_w, frame_h)
         entering_lane = is_entering_my_lane(history, frame_w)
 
         if (in_lane or entering_lane) and is_close and (is_approaching or on_collision_course):
