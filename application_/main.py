@@ -92,25 +92,26 @@ def run():
 
         frame_h, frame_w = frame.shape[:2]
 
-        # step 1: dehaze
+
         dehazed = boost_objects(frame)
 
-        # step 2: detect vehicles
+   
         boxes = run_detection(model, dehazed)
 
-        # draw all detections in green
-        for (x1, y1, x2, y2) in boxes:
-            cv2.rectangle(dehazed,
-                          (int(x1), int(y1)), (int(x2), int(y2)),
-                          (0, 255, 0), 1)
+    
+        for box in boxes:
+        x1, y1, x2, y2 = box[:4] 
+        cv2.rectangle(dehazed,
+                  (int(x1), int(y1)), (int(x2), int(y2)),
+                  (0, 255, 0), 1)
 
-        # step 3: check proximity and movement
+      
         warning_level, primary_box = check_proximity(boxes, frame_w, frame_h)
 
-        # step 4: draw warning overlay
+
         output = draw_warning(dehazed, warning_level, primary_box)
 
-        # status bar
+      
         status = f"Vehicles: {len(boxes)}"
         cv2.putText(output, status, (10, frame_h - 10),
                     cv2.FONT_HERSHEY_SIMPLEX, 0.5, (200, 200, 200), 1)
