@@ -41,7 +41,7 @@ def draw_warning(frame, warning_level, box=None):
     msg   = messages[warning_level]
 
     if box is not None:
-        x1, y1, x2, y2 = [int(v) for v in box]
+        x1, y1, x2, y2 = [int(v) for v in box[:4]]
         thickness = 3 if warning_level == 3 else 2
         cv2.rectangle(frame, (x1, y1), (x2, y2), color, thickness)
 
