@@ -14,7 +14,7 @@ def center(box):
     return ((x1+x2)/2,(y1+y2)/2)
 
 def box_area_ratio(box, frame_w, frame_h):
-    x1,y1,x2,y2 = bpx[:4]
+    x1,y1,x2,y2 = box[:4]
     box_area = (x2-x1) * (y2-y1)
     return box_area / (frame_w * frame_h)
 
