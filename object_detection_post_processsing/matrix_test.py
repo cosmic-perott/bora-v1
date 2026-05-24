@@ -9,7 +9,7 @@ MIN_TRAJECTORY_FRAMES = 4
 
 car_history = defaultdict(lambda: deque(maxlen=HISTORY_LEN))
 
-def centre(box):
+def center(box):
     x1,y1,x2,y2 = box[:4]
     return ((x1+x2)/2,(y1+y2)/2)
 
