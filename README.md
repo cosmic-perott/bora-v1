@@ -1,10 +1,6 @@
 # BoRa #
 <img width="226" height="74" alt="Screenshot 2026-05-22 at 11 25 54 PM" src="https://github.com/user-attachments/assets/f27c4414-db8f-456d-9322-dbbb07f98da5" />
 
-### stuff that actually works right now ###
-pipeline1.py: DeHaze + Secondary Object Detection 
-(you need a folder called test_storage in the same directory to make it work)
-
 ### 개발 목적
 BoRa는 차량에 기본 장착된 전방 카메라에서 입력되는 영상을 실시간으로 처리하여, 안개·스모그·연무 등 시야를 저하시키는 기상 조건에서 선명한 전방 시야 영상을 운전자에게 제공하는 소프트웨어다. 안개 낀 환경에서 카메라 영상의 색상 왜곡 및 대비 저하를 복원 기존 차량 카메라 하드웨어를 그대로 활용하여 별도의 추가 장비 없이 소프트웨어만으로 구현
 
@@ -49,3 +45,6 @@ random forest classifier 제작
 <img width="524" height="519" alt="Screenshot 2026-05-20 at 1 58 42 PM" src="https://github.com/user-attachments/assets/15d374f4-4d60-4308-a668-0a88b91f34fa" />
 
 
+### stuff that actually works right now ###
+pipeline1.py: DeHaze + Secondary Object Detection 
+(you need a folder called test_storage in the same directory to make it work)
