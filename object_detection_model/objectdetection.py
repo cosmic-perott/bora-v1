@@ -6,12 +6,14 @@ def load_model(weights_path):
     return model
 
 def run_detection(model, frame, conf=0.4):
-    results = model(frame, conf=conf, verbose=False)
+    results = model.track(frame, conf=conf, tracker="bytetrack.yaml",verbose=False, persist=True)
     boxes = []
     for r in results:
-        for box in r.boxes:
+        if r.boxes.id is None:
+            continue
+        for box, track_id in zip(r.boxes, r.boxes.id.tolist()):
             x1, y1, x2, y2 = box.xyxy[0].tolist()
-            boxes.append((x1, y1, x2, y2))
+            boxes.append((x1, y1, x2, y2, int(track_id)))
     return boxes
 
 if __name__ == "__main__":
