@@ -14,6 +14,7 @@ from object_detection_post_processsing.matrix_test import check_proximity
 
 YOLO_WEIGHTS = os.path.join(ROOT, "yolov8_objectdetection_library", "weights", "best.pt")
 CAMERA_INDEX = 0
+VIDEO_PATH = "/Users/fay/Downloads/test.MOV"
 DISPLAY_W    = 800
 DISPLAY_H    = 480
 IS_PI        = platform.system() == "Linux" and os.path.exists("/dev/video0")
@@ -71,7 +72,7 @@ def run():
         picam2.configure(config)
         picam2.start()
     else:
-        cap = cv2.VideoCapture(CAMERA_INDEX)
+        cap = cv2.VideoCapture(VIDEO_PATH)
         cap.set(cv2.CAP_PROP_FRAME_WIDTH, DISPLAY_W)
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, DISPLAY_H)
         if not cap.isOpened():
