@@ -98,7 +98,7 @@ def check_proximity(boxes, frame_w, frame_h):
         car_history.clear()
         return 0, None
 
-     highest_warning = 0
+    highest_warning = 0
     most_dangerous_box = None
 
     for box in boxes:
