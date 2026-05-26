@@ -4,7 +4,7 @@
 ### 
 <img width="577" height="70" alt="Screenshot 2026-05-25 at 8 29 08 PM" src="https://github.com/user-attachments/assets/ae24fee2-b606-41d0-91ef-ea9ee8b30052" />
 
-***all code, architecture, documentation, writing, ideas made by cosmic-perott, fay-dot1, jychoi27 for 8th Korea Code Fair***
+***all code, architecture, documentation, writing, ideas made by cosmic-perott, fay-dot1, jychoi27 for 8th Korea Code Fair.***
 
 ### 개발 목적
 BoRa는 차량에 기본 장착된 전방 카메라에서 입력되는 영상을 실시간으로 처리하여, 안개·스모그·연무 등 시야를 저하시키는 기상 조건에서 선명한 전방 시야 영상을 운전자에게 제공하는 소프트웨어다. 안개 낀 환경에서 카메라 영상의 색상 왜곡 및 대비 저하를 복원 기존 차량 카메라 하드웨어를 그대로 활용하여 별도의 추가 장비 없이 소프트웨어만으로 구현
