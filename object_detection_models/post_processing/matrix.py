@@ -57,6 +57,16 @@ def get_trajectory(history):
     dx = dx_total / frames
     dy = dy_total / frames
     return dx, dy
+    
+def is_stationary(history):
+    if len(history) < MIN_TRAJECTORY_FRAMES:
+        return False
+    positions = [h["center"] for h in history]
+    total_movement = math.sqrt(
+        (positions[-1][0] - positions[0][0])**2 +
+        (positions[-1][1] - positions[0][1])**2
+    )
+    return total_movement < 5.0
 
 def is_on_collision_course(history, frame_w, frame_h):
     dx, dy = get_trajectory(history)
@@ -81,15 +91,17 @@ def is_entering_my_lane(history, frame_w):
 
     old_cx = history[0]["center"][0]
     new_cx = history[-1]["center"][0]
-
+    movement = abs(new_cx - old_cx)
+    if movement < 20:
+        return False
     was_outside_left  = old_cx < lane_left
     was_outside_right = old_cx > lane_right
-
     now_inside = lane_left <= new_cx <= lane_right
-    crossing_left  = was_outside_right and new_cx < old_cx  
-    crossing_right = was_outside_left  and new_cx > old_cx 
-
+    crossing_left  = was_outside_right and new_cx < old_cx
+    crossing_right = was_outside_left  and new_cx > old_cx
     return (was_outside_left or was_outside_right) and (now_inside or crossing_left or crossing_right)
+
+ 
 
 def check_proximity(boxes, frame_w, frame_h):
     global car_history
@@ -115,10 +127,11 @@ def check_proximity(boxes, frame_w, frame_h):
 
         history = car_history[track_id]
         warning = 0
-
+        
+        stationary = is_stationary(history)
         in_lane = is_in_my_lane(box, frame_w)
-
         is_close = area >= CLOSE_AREA_RATIO
+        
         if len(history) >= 3:
             area_growth = history[-1]["area"] - history[0]["area"]
             is_approaching = area_growth > APPROACH_THRESHOLD
@@ -128,13 +141,20 @@ def check_proximity(boxes, frame_w, frame_h):
         on_collision_course = is_on_collision_course(history, frame_w, frame_h)
         entering_lane = is_entering_my_lane(history, frame_w)
 
-        if (in_lane or entering_lane) and is_close and (is_approaching or on_collision_course):
-            warning = 3
-        elif (in_lane or entering_lane) and is_close:
+        if stationary:
+            cx, cy = center(box)
+            directly_ahead = cy > frame_h * 0.6
+        if in_lane and is_close and directly_ahead:
             warning = 2
-        elif in_lane or entering_lane:
-            warning = 1
-
+        else:
+            warning = 0
+        else:
+            if (in_lane or entering_lane) and is_close and (is_approaching or on_collision_course):
+                warning = 3
+            elif (in_lane or entering_lane) and is_close:
+                warning = 2
+            elif in_lane or entering_lane:
+                warning = 1
        
         if warning > highest_warning:
             highest_warning = warning
