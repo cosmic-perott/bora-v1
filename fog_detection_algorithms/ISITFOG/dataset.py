@@ -79,24 +79,8 @@ def get_dataloaders(val_split=0.2, batch_size=32):
     return train_loader, val_loader
 
 if __name__ == "__main__":
-    print("Running dataset.py...")
     setup_dirs()
     n_foggy, n_clear = count_images()
-
-    if n_foggy == 0 and n_clear == 0:
-        print("\nNo images found yet.")
-        print("Add images to data/foggy/ and data/clear/ before training.")
-        print("\n--- DATASET SOURCES ---")
-        print("1. RESIDE (foggy road images):")
-        print("   https://sites.google.com/view/reside-dehaze-datasets")
-        print("   Download the RTTS folder")
-        print("")
-        print("2. BDD100K (clear driving images):")
-        print("   https://bdd-data.berkeley.edu")
-        print("   Register free, download 100K Images")
     else:
         train_loader, val_loader = get_dataloaders()
         images, labels = next(iter(train_loader))
-        print(f"\nSample batch shape: {images.shape}")
-        print(f"Labels in batch: {labels.tolist()[:8]}")
-        print("\ndataset.py is working correctly!")
