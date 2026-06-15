@@ -108,16 +108,26 @@ def run():
             frame = get_frame_mac(cap)
 
         if frame is None:
-            print("frame where??!")
+            print("camera error")
             break
 
         frame_h, frame_w = frame.shape[:2]
-
+        
+    if USE_FOG_CLASSIFIER:
+            foggy = check_fog(fog_model, frame)
+            if not foggy:
+                # not foggy — show plain feed with status
+                cv2.putText(frame, "CLEAR CONDITIONS", (10, 42),
+                            cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 255, 0), 2)
+                cv2.imshow("BORA", frame)
+                if cv2.waitKey(1) & 0xFF == ord("q"):
+                    break
+                continue
 
         dehazed = boost_objects(frame)
 
    
-        boxes = run_detection(model, dehazed)
+        vehicle_boxes = run_detection(model, dehazed)
 
     
         for box in boxes:
@@ -125,8 +135,12 @@ def run():
             cv2.rectangle(dehazed,
                   (int(x1), int(y1)), (int(x2), int(y2)),
                   (0, 255, 0), 1)
+        light_boxes = run_light_detection(light_model, dehazed)
 
-      
+        for box in light_boxes:
+            x1, y1, x2, y2 = box[:4]
+            cv2.rectangle(dehazed, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 255), 1)
+            
         warning_level, primary_box = check_proximity(boxes, frame_w, frame_h)
 
 
