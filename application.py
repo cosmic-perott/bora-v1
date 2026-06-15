@@ -8,15 +8,38 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(ROOT)
 
 from fog_detection_algorithms.denoise_filter.filter_v5 import boost_objects
-from object_detection_models.vehicle_detection.objectdetection import load_model, run_detection
+from object_detection_models.vehicle_detection.objectdetection import load_model, run_detection, run_light_detection
 from object_detection_models.post_processing.matrix import check_proximity
 
-YOLO_WEIGHTS = os.path.join(ROOT, "object_detection_models", "vehicle_detection", "yolo_vehicle_model", "weights", "best.pt")
+VEHICLE_WEIGHTS = os.path.join(ROOT, "object_detection_models", "vehicle_detection", "yolo_vehicle_model", "weights", "best.pt")
+LIGHT_WEIGHTS   = os.path.join(ROOT, "object_detection_models", "light_detection", "yolo_light_model", "weights", "best.pt")
 CAMERA_INDEX = 0
 VIDEO_PATH = "/Users/fay/Downloads/test.MOV"
 DISPLAY_W = 800
 DISPLAY_H = 480
 IS_PI = platform.system() == "Linux" and os.path.exists("/dev/video0")
+
+USE_FOG_CLASSIFIER = False #change this later 
+FOG_MODEL_PATH = os.path.join(ROOT, "fog_detection_algorithms", "ISITFOG", "models", "best_model.pth")
+
+def load_fog_classifier():
+    try:
+        from fog_detection_algorithms.ISITFOG.inference import load_classifier
+        model = load_classifier(FOG_MODEL_PATH)
+        return model
+    except Exception as e:
+        print(f"classifier err: {e}")
+        return None
+
+def check_fog(fog_model, frame):
+    if fog_model is None:
+        return True  # if no model, assume foggy and always run
+    try:
+        from fog_detection_algorithms.ISITFOG.inference import is_foggy
+        foggy, confidence = is_foggy(fog_model, frame)
+        return foggy
+    except:
+        return True
 
 
 def draw_warning(frame, warning_level, box=None):
@@ -60,8 +83,9 @@ def get_frame_mac(cap):
     return frame
 
 def run():
-    model = load_model(YOLO_WEIGHTS)
-
+    light_model = load_model(LIGHT_WEIGHTS)
+    vehicle_model = load_model(VEHICLE_WEIGHTS)
+    fog_model = load_fog_classifier() if USE_FOG_CLASSIFIER else None
     if IS_PI:
         from picamera2 import Picamera2
         picam2 = Picamera2()
@@ -76,8 +100,6 @@ def run():
         cap.set(cv2.CAP_PROP_FRAME_HEIGHT, DISPLAY_H)
         if not cap.isOpened():
             return
-
-    print("Pipeline running")
 
     while True:
         if IS_PI:
