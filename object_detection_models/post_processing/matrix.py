@@ -144,10 +144,10 @@ def check_proximity(boxes, frame_w, frame_h):
         if stationary:
             cx, cy = center(box)
             directly_ahead = cy > frame_h * 0.6
-        if in_lane and is_close and directly_ahead:
-            warning = 2
-        else:
-            warning = 0
+            if in_lane and is_close and directly_ahead:
+                warning = 2
+            else:
+                warning = 0
         else:
             if (in_lane or entering_lane) and is_close and (is_approaching or on_collision_course):
                 warning = 3
