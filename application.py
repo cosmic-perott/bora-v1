@@ -114,23 +114,22 @@ def run():
         frame_h, frame_w = frame.shape[:2]
         
     if USE_FOG_CLASSIFIER:
-            foggy = check_fog(fog_model, frame)
-            if not foggy:
-                # not foggy — show plain feed with status
-                cv2.putText(frame, "CLEAR CONDITIONS", (10, 42),
-                            cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 255, 0), 2)
-                cv2.imshow("BORA", frame)
-                if cv2.waitKey(1) & 0xFF == ord("q"):
-                    break
-                continue
+        foggy = check_fog(fog_model, frame)
+        if not foggy:
+            cv2.putText(frame, "CLEAR CONDITIONS", (10, 42),
+            cv2.FONT_HERSHEY_DUPLEX, 1.0, (0, 255, 0), 2)
+            cv2.imshow("BORA", frame)
+            if cv2.waitKey(1) & 0xFF == ord("q"):
+                break
+            continue
 
-        dehazed = boost_objects(frame)
+    dehazed = boost_objects(frame)
 
    
-        vehicle_boxes = run_detection(model, dehazed)
+    vehicle_boxes = run_detection(model, dehazed)
 
     
-        for box in boxes:
+    for box in boxes:
             x1, y1, x2, y2 = box[:4] 
             cv2.rectangle(dehazed,
                   (int(x1), int(y1)), (int(x2), int(y2)),
