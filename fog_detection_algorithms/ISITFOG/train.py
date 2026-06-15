@@ -44,7 +44,7 @@ def train_one_epoch(model, loader, optimizer, criterion):
         loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
-                total_loss += loss.item()
+        total_loss += loss.item()
         preds = (outputs >= 0.5).float()
         correct += (preds == labels).sum().item()
         total += labels.size(0)
