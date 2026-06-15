@@ -5,12 +5,6 @@ from pathlib import Path
 from tqdm import tqdm
 from dataset import get_dataloaders, count_images
 
-if __name__ == "__main__":
-    print("works")
-    n_foggy, n_clear = count_images()
-    print(f" {n_foggy} foggy and {n_clear} clear ")
-    train()
-
 MODELS_DIR = Path("models")
 MODELS_DIR.mkdir(exist_ok=True)
 
