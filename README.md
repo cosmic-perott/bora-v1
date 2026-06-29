@@ -1,6 +1,7 @@
 # BoRa  #
 <img width="326" height="114" alt="Screenshot 2026-05-22 at 11 25 54 PM" src="https://github.com/user-attachments/assets/f27c4414-db8f-456d-9322-dbbb07f98da5" />
 
+
 ![](https://img.shields.io/badge/PYTHON-3776AB?style=for-the-badge&logo=python&logoColor=white) ![](https://img.shields.io/badge/YOLOv8-002244?style=for-the-badge&logo=ultralytics&logoColor=white) ![](https://img.shields.io/badge/ROBOFLOW-6706FF?style=for-the-badge&logo=roboflow&logoColor=white) ![](https://img.shields.io/badge/RASPBERRY%20PI-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white)
 
 ***all code, architecture, documentation, writing, ideas made by cosmic-perott, fay-dot1, jychoi27 for 8th Korea Code Fair.***
