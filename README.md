@@ -8,7 +8,7 @@
 
 ---
 
-## 📌 Project Overview
+## Project Overview
 
 Driving in heavy fog severely limits visibility, significantly increasing accident risks. **BoRa** processes real-time video feeds from a vehicle's standard front-facing camera, applying image restoration techniques to eliminate fog-induced scattering, correct color distortion, and boost contrast. 
 
@@ -16,7 +16,7 @@ By restoring visual clarity before a threat escalates, BoRa empowers drivers to 
 
 ---
 
-## 💡 Background & Motivation
+## Background & Motivation
 
 The project was inspired by a personal incident involving team member **Jun-young Kim**, who was struck by a vehicle while riding a skateboard on a heavily foggy day. The driver’s visibility was severely restricted, preventing them from detecting him in time.
 
@@ -26,7 +26,7 @@ The project was inspired by a personal incident involving team member **Jun-youn
 
 ---
 
-## 🔍 Key Differentiators
+## Key Differentiators
 
 | Feature | Conventional Systems (LiDAR / Radar ADAS) | **BoRa (Software Solution)** |
 | :--- | :--- | :--- |
@@ -37,6 +37,6 @@ The project was inspired by a personal incident involving team member **Jun-youn
 
 ---
 
-## 🛠️ Architecture & System Pipeline
+## Architecture & System Pipeline
 
 BoRa utilizes a dynamic execution pipeline to save computational overhead when weather conditions are normal.
