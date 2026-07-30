@@ -5,47 +5,116 @@
 ![](https://img.shields.io/badge/PYTHON-3776AB?style=for-the-badge&logo=python&logoColor=white) ![](https://img.shields.io/badge/YOLOv8-002244?style=for-the-badge&logo=ultralytics&logoColor=white) ![](https://img.shields.io/badge/ROBOFLOW-6706FF?style=for-the-badge&logo=roboflow&logoColor=white) ![](https://img.shields.io/badge/RASPBERRY%20PI-A22846?style=for-the-badge&logo=raspberrypi&logoColor=white)
 
 ***all code, architecture, documentation, writing, ideas made by cosmic-perott, fay-dot1, jychoi27 for 8th Korea Code Fair.***
+Here is the translation and refinement of your project documentation into professional, clear English.
 
-### 개발 목적
-BoRa는 차량에 기본 장착된 전방 카메라에서 입력되는 영상을 실시간으로 처리하여, 안개·스모그·연무 등 시야를 저하시키는 기상 조건에서 선명한 전방 시야 영상을 운전자에게 제공하는 소프트웨어다. 안개 낀 환경에서 카메라 영상의 색상 왜곡 및 대비 저하를 복원 기존 차량 카메라 하드웨어를 그대로 활용하여 별도의 추가 장비 없이 소프트웨어만으로 구현
+Development Purpose
+BoRa is a software solution designed to process real-time video feeds from a vehicle's built-in front-facing camera. It restores clear forward vision for drivers operating under severe visibility-reducing weather conditions, such as fog, smog, and haze. By correcting color distortion and low contrast caused by foggy environments, BoRa operates purely as a software solution utilizing existing vehicular camera hardware—requiring no additional equipment.
 
-### 개발 배경
-본 프로젝트의 출발점은 팀원 중 한 명인 김준영의 실제 사고 경험이다. 안개가 짙게 낀 날, 그는 스케이트보드를 타고 이동하던 중 마주 오던 차량에 치이는 사고를 당했다. 운전자는 안개로 인해 시야가 심각하게 제한되어 전방의 사람을 인지하지 못했다. 이 사고는 단순한 개인적 불운이 아니라, 안개가 유발하는 시야 저하가 곧 생사의 문제로 직결될 수 있음을 직접 보여 준 사례다.
-안개는 대기 중의 미세 물방울이 빛을 산란(scattering)시키고 흡수(absorption)하면서 카메라 및 육안 시야를 크게 저하시킨다. 특히 새벽이나 기온 역전 현상이 발생하는 계절에는 가시 거리가 수십 미터 이하로 줄어드는 경우도 잦다. 이러한 환경에서 운전자는 차량 전조등만으로 전방 상황을 파악해야 하며, 보행자·이륜차·장애물을 늦게 인식하여 사고 위험이 급격히 증가한다.
-도로 안전 측면에서도 안개는 심각한 위협 요인이다. 한국도로공사 통계에 따르면 고속도로에서 안개가 낀 날의 교통사고 치사율은 맑은 날의 약 3배 이상에 달한다.
-이처럼 기상 환경이 운전자의 판단 능력을 직접 제한하는 상황에서, 소프트웨어 기반의 실시간 안개 제거 기술은 운전자에게 보다 명확한 전방 시야를 제공할 수 있는 현실적이고 실용적인 해결책이 될 수 있다.
+Background & Motivation
+The project was inspired by a personal incident involving team member Jun-young Kim. While riding a skateboard on a heavily foggy day, he was hit by an oncoming vehicle. The driver’s visibility was severely impaired by the dense fog, making it impossible to detect him in time. This accident demonstrated firsthand that fog-induced visibility degradation is a life-or-death issue on the road.
 
-### 유사 제품 연구 및 차별성
-현재 시중의 차량 안전 기술은 크게 두 가지 방향으로 발전해 왔다. 첫째는 라이다(LiDAR)·레이더(Radar) 기반 감지 시스템이고, 둘째는 카메라 기반 ADAS(첨단 운전자 지원 시스템)다.
-① LiDAR / Radar 기반 안전 시스템
-라이다와 레이더는 전자기파를 발사하여 주변 사물을 3D로 인식하며, 보행자 감지·자동 긴급 제동(AEB)·어댑티브 크루즈 컨트롤 등에 활용된다. 그러나 이는 고가의 추가 하드웨어를 필요로 한다. 2024년 기준 LiDAR 센서 한 개의 단가는 500~700달러(약 67~95만 원)에 달해 일반 대중 차량에는 탑재가 어렵다는 구조적 한계가 존재한다.
-전 세계 차량의 첨단 안전장치 미탑재 현황 (2024년 기준)
-전 세계 승용차 총 대수 (2024) : 약 14.5억 대 (IEA·ACEA 추정) 2024년 신차 판매량 중 ADAS(L1 이상) 탑재 비율 : 약 68.6% (ResearchAndMarkets, 2025) 신차 중 무(無) ADAS 비율 : 약 31.4% — 약 2,700만 대/년 전체 운행 차량 중 ADAS 탑재 비율 추정 : 10% 미만 (Canalys, 2021) LiDAR 탑재 차량 비율 (전체 운행 차량 대비) : 극히 미미 — 수만 대 수준
-위 수치에서 알 수 있듯이, 현재 전 세계에서 운행 중인 차량의 90% 이상은 라이다나 레이더 기반 주변 감지 장치를 탑재하지 않고 있다. 신차에서도 ADAS 탑재율이 빠르게 높아지고 있으나, 전 세계 평균 차령(車齡)이 12년 이상인 점을 감안하면 기존 차량이 고급 안전장치를 갖추기까지는 수십 년이 소요된다. 이러한 거대한 "안전 사각지대" 차량군이 바로 BoRa의주요 대상이다.
-② 기존 LiDAR/레이더 기반 안전장치와 BoRa 가장 근본적인 차이는 대응 방식에 있다. 기존 안전장치는 전방에 장애물이나 보행자가 감지되었을 때 경보를 울리거나 자동으로 제동하는 방식으로, 위협이 이미 발생한 이후에 반응한다. 즉, 사고를 막기 위해 개입하는 사후 대응 중심의 구조다.
-반면 BoRa는 위협이 발생하기 전, 운전자가 스스로 전방 상황을 파악할 수 있도록 시야 자체를 복원해 준다. 안개로 뿌옇던 화면이 선명해지면 운전자는 멀리 있는 보행자, 갓길의 장애물, 맞은편 차량의 움직임을 미리 인지하고 스스로 판단하여 속도를 줄이거나 차선을 변경하는 등 사전 예방적 행동이 가능해진다.
-또한 안개 속 운전은 "무엇이 있을지 모른다"는 불확실성 때문에 운전자에게 상당한 심리적 불안감을 유발한다. BoRa는 시야를 복원함으로써 이 불확실성을 줄이고, 운전자가 보다 안정적이고 집중된 상태로 운전할 수 있도록 돕는다. 경보음이나 자동 제동이 오히려 운전자를 놀라게 하거나 긴장시킬 수 있는 것과 달리, 본 소프트웨어는 운전자의 인지 부담을 낮추는 방향으로 작동한다.
-결국 BoRa가 제공하는 것은 단순한 경고가 아니라, 운전자가 주변 환경에 대한 시각적 정보를 더 많이, 더 일찍 얻을 수 있는 환경이다. 이는 운전자의 주체적인 판단 능력을 강화하는 방향으로, 기존 안전장치와 본질적으로 다른 접근이다.
+Fog occurs when microscopic water droplets in the atmosphere scatter and absorb light, significantly degrading visual perception for both human eyes and cameras. During early mornings or seasonal temperature inversions, visibility often drops to less than a few dozen meters. Under these conditions, drivers must rely solely on headlights, drastically delaying their reaction time to pedestrians, two-wheeled vehicles, and stationary obstacles.
 
-### 작품 제작 과정
-1. 차체의 전방 카메라를 통하여 0.3초 마다 이미지 입력받는다.  
-2. Random forest classifier를 통해 입력받은 이미지에 안개가 있는지 판별한다.
-만약 안개가 없는 것으로 판단된다면, 이후의 프로세싱은 생략되며 불필요한 연산을 줄여 처리시간을 단축한다.  이는 상단 도표중 중앙에 위치해있는 플로우차트에 더욱 상세히 표시되어 있다. 
-3. 안개가 감지된 경우에는 이미지에 대해 커스텀 필터 파이프라인을 실행한다. CLAHE를 이용한 색보정 후 DCP 알고리즘을 이용하여 산란을 제거하고 Sobel Operator를 통해 선명도를 복원한다. [우측 플로우 차트: 자동차 감지 및 예측]
-4. 복원된 이미지를 YOLOv8 모델에 입력하여 전방 차량과 후미등을 탐지한다.
-5. 탐지된 후미등과 차량을 매트릭스 연산을 통해 대응시킨다. YOLOv8은 각 객체를 독립적으로 탐지하므로, 어느 후미등이 어느 차량에 속하는지를 별도로 계산하여 정확한 차량별 상태 분석이 가능하도록 한다.
-6. ByteTrack을 활용하여 각 차량의 움직임을 추적하고, 후미등 신호 해석을 통해 해당 차량이 사용자에게 위협이 되는지(급정거, 끼어들기 등) 판단한다. 위협으로 분류된 경우 운전자에게 즉각 경고를 전달한다.
-7. 위 과정은 사용자가 시스템을 종료할 때 까지 반복된다.
+From a road safety perspective, fog poses a severe threat. According to statistics from the Korea Expressway Corporation, the fatality rate for traffic accidents on foggy days is more than three times higher than on clear days.
 
-3월 30일: 안개 제거 알고리즘 시제품 제작
-4월 5일: 프로그램 대기시간을 줄이기 위해서 이미지에 안개가 있는지를 판단하는 
-random forest classifier 제작
-4월 14일: 안개를 가장 효율적으로 제거하기 위해 CLAHE, DCP, Sobel Operator 등의 안개 제거 알고리즘을 적용한 파이프라인 제작
-4월 17일: 
-4월 20일: 자동차 이미지 200개로 학습된 YOLOv8 모델을 이용한 자동차 탐지 프로그램 제작
-4월 21일: 후미등 이미지 150개로 학습된 YOLOv8 모델을 이용한 후미등 탐지 프로그램 제작
-5월 2일: ByteTrack을 이용하여 각 자동차의 움직임을 예측하는 프로그램 제작 및 각 자동차 후미등의 신호를 이용하여 각 자동차의 움직임을 예측하는 프로그램 제작.
-5월 22일: 위협이 있다고 프로그램에서 판단했을 때, 사용자에게 경고를 전달하는 코드 작성.  
+Given how weather conditions directly impair human judgment, real-time software-based defogging serves as a practical, accessible solution to provide drivers with clear, actionable vision when they need it most.
+
+Competitive Analysis & Differentiation
+Modern automotive safety technologies have evolved primarily along two tracks: LiDAR/Radar-based perception systems and Camera-based ADAS (Advanced Driver Assistance Systems).
+
+1. LiDAR / Radar Systems vs. BoRa
+LiDAR and Radar emit electromagnetic waves to map surroundings in 3D, enabling capabilities like pedestrian detection, Automatic Emergency Braking (AEB), and Adaptive Cruise Control (ACC). However, they rely on expensive hardware additions. As of 2024, a single LiDAR sensor costs between $500 and $700 (USD), posing a structural cost barrier for mass-market vehicles.
+
+Global Automotive Safety Equipment Gap (2024 Context)
+Total Global Passenger Cars in Operation: ~1.45 Billion (IEA / ACEA estimates)
+
+ADAS Penetration in New Vehicle Sales (L1+): ~68.6% (ResearchAndMarkets)
+
+New Vehicles Without ADAS: ~31.4% (~27 Million units/year)
+
+Total In-Operation Vehicles with ADAS: Less than 10% (Canalys)
+
+Total In-Operation Vehicles with LiDAR: Negligible (Tens of thousands globally)
+
+Over 90% of active vehicles worldwide lack LiDAR or Radar sensors. While ADAS integration in new vehicles is growing rapidly, the global average vehicle age exceeds 12 years, meaning it will take decades for legacy fleets to acquire advanced hardware safety features. This massive "safety blind spot" represents BoRa's target market.
+
+2. Proactive Vision Restoration vs. Reactive Warnings
+The fundamental difference between existing systems and BoRa lies in their approach to safety:
+
+Existing Systems (Reactive): Trigger warnings or initiate automatic braking only after an obstacle or threat is detected in the path of travel. They intervene late in the danger cycle.
+
+BoRa (Proactive & Preventive): Restores visual clarity before a threat escalates, enabling drivers to perceive their surroundings independently.
+
+By clarifying a foggy video feed, BoRa allows drivers to identify distant pedestrians, shoulder obstacles, or oncoming traffic earlier. This grants drivers the time needed to make proactive decisions—such as reducing speed or changing lanes safely.
+
+Furthermore, driving in fog creates psychological stress due to environmental uncertainty. BoRa mitigates driver fatigue and anxiety by restoring visual context, fostering a calmer, more focused driving environment. Unlike abrupt warning alerts or sudden automatic braking, which can startle the driver, BoRa reduces cognitive load to enhance human decision-making.
+
+Development Pipeline & Implementation
+[ Camera Input (Every 0.3s) ]
+            │
+            ▼
+[ Random Forest Classifier ] ──(No Fog Detected)──► [ Skip Processing ]
+            │                                             │
+      (Fog Detected)                                      │
+            │                                             │
+            ▼                                             ▼
+[ Custom Enhancement Pipeline ]                     (Save Compute)
+  ├── CLAHE (Color Correction)
+  ├── DCP (Scattering Removal)
+  └── Sobel Filter (Sharpening)
+            │
+            ▼
+[ YOLOv8 Object Detection ]
+  ├── Detect Vehicles
+  └── Detect Tail Lights
+            │
+            ▼
+[ Matrix Matching ] ──► (Associate Tail Lights to Vehicles)
+            │
+            ▼
+[ ByteTrack & Signal Analysis ]
+  ├── Track Vehicle Trajectories
+  └── Analyze Tail Light Signals (Deceleration / Blinking)
+            │
+            ▼
+[ Threat Assessment & Driver Warning ]
+System Workflow
+Frame Capture: The system captures video frames from the front camera at 0.3-second intervals.
+
+Fog Detection Gate: A Random Forest Classifier evaluates whether fog is present. If no fog is detected, subsequent processing is bypassed to preserve computational resources and minimize latency.
+
+Custom Image Enhancement Pipeline: When fog is present, the frame passes through a three-stage enhancement sequence:
+
+CLAHE (Contrast Limited Adaptive Histogram Equalization) for color and contrast correction.
+
+DCP (Dark Channel Prior) algorithm to remove light scattering effects.
+
+Sobel Operator to sharpen edges and restore fine details.
+
+Object Detection: The enhanced image is fed into a YOLOv8 model to detect front vehicles and their corresponding tail lights.
+
+Entity Association: Using matrix calculations, detected tail lights are mapped to their parent vehicles to evaluate individual vehicle states.
+
+Tracking & Behavior Prediction: ByteTrack tracks vehicle movement vectors over time, while tail-light signal processing evaluates potential hazards (e.g., sudden braking or cut-ins).
+
+Hazard Alert: If a vehicle is categorized as an active threat, the system immediately alerts the driver. The cycle repeats until terminated by the user.
+
+Development Timeline
+March 30: Developed the initial prototype for the defogging algorithm.
+
+April 5: Built a Random Forest Classifier to detect fog presence in input frames, reducing idle latency and unnecessary processing.
+
+April 14: Designed and optimized the complete enhancement pipeline combining CLAHE, DCP, and Sobel Filtering.
+
+April 17: System integration and pipeline benchmarking.
+
+April 20: Built and trained a vehicle detection model using YOLOv8 (trained on 200 automotive images).
+
+April 21: Built and trained a tail-light detection model using YOLOv8 (trained on 150 tail-light images).
+
+May 2: Integrated ByteTrack to predict vehicle trajectories and developed a tail-light signal interpreter to evaluate vehicle behavior.
+
+May 22: Implemented the real-time driver alert module for detected road hazards.
 
 <img width="524" height="519" alt="Screenshot 2026-05-20 at 1 58 42 PM" src="https://github.com/user-attachments/assets/15d374f4-4d60-4308-a668-0a88b91f34fa" />
   
