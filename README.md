@@ -4,6 +4,8 @@
 [![YOLOv8](https://img.shields.io/badge/YOLOv8-Object%20Detection-00FFFF.svg)](https://github.com/ultralytics/ultralytics)
 [![OpenCV](https://img.shields.io/badge/OpenCV-Image%20Processing-green.svg)](https://opencv.org/)
 
+* **OPENSOURCE CODE: OPEN THE "opensource" file** 
+
 > **BoRa** is a pure software solution designed to enhance driver visibility in severe weather conditions (fog, smog, haze) using existing vehicle camera hardware without requiring additional sensors.
 
 ---
